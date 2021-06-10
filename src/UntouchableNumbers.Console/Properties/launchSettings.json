@@ -2,7 +2,7 @@
   "profiles": {
     "UntouchableNumbers.Console": {
       "commandName": "Project",
-      "commandLineArgs": "0 13000"
+      "commandLineArgs": "0 10000"
     }
   }
 }

@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using System;
 
 namespace UntouchableNumbers.Core
 {
@@ -8,12 +11,16 @@ namespace UntouchableNumbers.Core
         private readonly int _multiplier = 10; // ten times the number should be enough to get all the sums matching the range
         private readonly List<int> _sums;
 
+        public UntouchableNumbers(int theNumber)
+        {
+            _sums = GetListOfSumOfProperDivisor(theNumber);
+        }
         public UntouchableNumbers(int minNumber, int maxNumber)
         {
             _sums = GetListOfSumOfProperDivisor(minNumber, maxNumber);
         }
         public bool IsUntouchableNumber(int number) {
-            if (number < 0) // must be a positive integer
+            if (number <= 0) // must be a positive integer
             {
                 return false; 
             }
@@ -30,23 +37,54 @@ namespace UntouchableNumbers.Core
             }
             return true;
         }
-
-        private List<int> GetListOfSumOfProperDivisor(int minNumber, int maxNumber) {   
-            var listOfSums = new List<int>();
-            for (var n = minNumber; n <= maxNumber * _multiplier; n++) { 
-                var sum = 0;
-                for (var i = 1; i < n; i++) {
-                    if (n % i == 0) {
-                        sum += i;
-                    }
+        private List<int> GetListOfSumOfProperDivisor(int minNumber, int maxNumber)
+        {
+            var sums = new ConcurrentDictionary<int, int>();
+            Parallel.For(minNumber, maxNumber * _multiplier, (int number, ParallelLoopState state) =>
+            {
+                new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.75) * 2.0))
+                };
+                var sum = GetSum(number);
+                if (sum != 0)
+                {
+                    sums.TryAdd(sum, 0);
                 }
-                if (sum != 0){
-                    listOfSums.Add(sum);
+
+            });
+            return sums.Select(x => x.Key).ToList();
+        }
+        private List<int> GetListOfSumOfProperDivisor(int theNumber)
+        {
+            var sums = new ConcurrentDictionary<int, int>();
+            Parallel.For(theNumber, theNumber * _multiplier, (int number, ParallelLoopState state) =>
+            {
+                new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Convert.ToInt32(Math.Ceiling((Environment.ProcessorCount * 0.75) * 2.0))
+                };
+                var sum = GetSum(number);
+                if (sum == theNumber)
+                {
+                    sums.TryAdd(sum, 0);
+                }
+
+            });
+            return sums.Where(x => x.Key == theNumber).Select(x => x.Key).ToList();
+        }
+        private static int GetSum(int number)
+        {
+            var sum = 0;
+            for (var i = 1; i < number; i++)
+            {
+                if (number % i == 0)
+                {
+                    sum += i;
                 }
             }
-            return listOfSums;
+            return sum;
         }
-
         private static bool IsPrimeNumber(int number) {
             if (number <= 1) 
             {

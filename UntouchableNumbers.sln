@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UntouchableNumbers.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UntouchableNumbers.Console", "src\UntouchableNumbers.Console\UntouchableNumbers.Console.csproj", "{D60332B3-B40A-46A8-9F56-42DA3B5EFA19}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UntouchableNumbers.Website", "src\UntouchableNumbers.Website\UntouchableNumbers.Website.csproj", "{EC74D97F-AFC8-4D30-B8EA-A593FE05C5FC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{D60332B3-B40A-46A8-9F56-42DA3B5EFA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D60332B3-B40A-46A8-9F56-42DA3B5EFA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D60332B3-B40A-46A8-9F56-42DA3B5EFA19}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC74D97F-AFC8-4D30-B8EA-A593FE05C5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC74D97F-AFC8-4D30-B8EA-A593FE05C5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC74D97F-AFC8-4D30-B8EA-A593FE05C5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC74D97F-AFC8-4D30-B8EA-A593FE05C5FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

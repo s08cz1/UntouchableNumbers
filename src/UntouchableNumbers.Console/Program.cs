@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using UntouchableNumbers.Core;
 
 namespace UntouchableNumbers.Console
 {
@@ -8,33 +6,50 @@ namespace UntouchableNumbers.Console
     {
         static void Main(string[] args)
         {
-            var minNumber = 0;
-            var maxNumber = 1000;
+            if (args.Length == 0)
+            {
+                throw new ArgumentException("The app requires either 1 or 2 int arguments.");
+            }
+
+            LogToConsole("Starting...");
             if (args.Length == 1) 
             { // single number
-                minNumber = int.Parse(args[0]);
-                maxNumber = int.Parse(args[0]);
-            }
-            if (args.Length == 2) 
-            { // range
-                minNumber = int.Parse(args[0]);
-                maxNumber = int.Parse(args[1]);
-            }
-
-
-            var untouchableNumbers = new UntouchableNumbers.Core.UntouchableNumbers(minNumber, maxNumber);
-
-            var count = 1;
-            for (var number = minNumber; number <= maxNumber; number++) 
-            {
-                var isUntouchable = untouchableNumbers.IsUntouchableNumber(number);
-                if (isUntouchable) 
-                { 
-                    System.Console.WriteLine($"{count}: {number}"); 
-                    count++;
+                var theNumber = int.Parse(args[0]);
+                LogToConsole("Preparing data...");
+                var untouchableNumbers = new Core.UntouchableNumbers(theNumber);
+                LogToConsole("Data ready for processing");
+                var isUntouchable = untouchableNumbers.IsUntouchableNumber(theNumber);
+                if (isUntouchable)
+                {
+                    LogToConsole("Yes");
+                }
+                else
+                {
+                    LogToConsole("No");
                 }
             }
-            System.Console.WriteLine("Done");
+            else if (args.Length == 2) 
+            { // range
+                var minNumber = int.Parse(args[0]);
+                var maxNumber = int.Parse(args[1]);
+                LogToConsole("Preparing data...");
+                var untouchableNumbers = new Core.UntouchableNumbers(minNumber, maxNumber);
+                LogToConsole("Data ready for processing");
+                var count = 1;
+                for (var number = minNumber; number <= maxNumber; number++)
+                {
+                    var isUntouchable = untouchableNumbers.IsUntouchableNumber(number);
+                    if (isUntouchable)
+                    {
+                        System.Console.WriteLine($"{count}: {number}");
+                        count++;
+                    }
+                }
+            }
+
+            LogToConsole("Done");
         }
+
+        private static void LogToConsole(string message) => System.Console.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")}: {message}");
     }
 }
